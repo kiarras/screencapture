@@ -1,0 +1,43 @@
+﻿<Window x:Class="screencapture.rectWindow" 
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+xmlns:local="clr-namespace:screencapture" 
+mc:Ignorable="d" 
+Title="Screenshot"
+x:Name="wndMain" ResizeMode="CanResize" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="White" Loaded="wndMain_Loaded" >
+    <Grid >
+        <Grid x:Name="gridChild" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" x:Name="MenuChild" Orientation="Horizontal" FlowDirection="RightToLeft" >
+                <Button x:Name="BtnClose" Content="X" VerticalAlignment="Stretch" Width="30" Click="BtnClose_Click" Foreground="Red" />
+                <Button x:Name="BtnToClipboard" Content="to Clipboard" VerticalAlignment="Stretch" Width="Auto" Click="BtnToClipboard_Click" />
+                <Button x:Name="BtnCapture" Content="Capture" VerticalAlignment="Stretch" Width="Auto" Click="btnCapture_Click" />
+            </StackPanel>
+            <Border Grid.Row="1" x:Name="ctlBorder_Image" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="5" >
+                <Image x:Name="ctlImage" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" MouseMove="ctlImage_MouseMove" MouseDown="ctlImage_MouseDown" MouseUp="ctlImage_MouseUp">
+                </Image>
+            </Border>
+
+            <Grid Grid.Row="1" x:Name="ctlSelection" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" IsHitTestVisible="true" Visibility="Visible" MouseDown="ctlImage_MouseDown" MouseMove="ctlImage_MouseMove" MouseUp="ctlImage_MouseUp" >
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Red" BorderThickness="2"></Border>
+                <Border x:Name="edge_TopLeft" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="5,5,0,0" BorderBrush="Black" Opacity="0.5" MouseDown="edge_TopLeft_MouseDown">
+                    <Rectangle x:Name="edgePad_TopLeft" Fill="Red" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="edge_TopLeft_MouseDown" ></Rectangle>
+                </Border>
+                <Border x:Name="edge_TopRight" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0,5,5,0" BorderBrush="Black" Opacity="0.5" MouseDown="edge_TopRight_MouseDown">
+                    <Rectangle x:Name="edgePad_TopRight" Fill="Red" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="edge_TopRight_MouseDown" ></Rectangle>
+                </Border>
+                <Border x:Name="edge_BottomLeft" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" BorderThickness="5,0,0,5" BorderBrush="Black" Opacity="0.5" MouseDown="edge_BottomLeft_MouseDown">
+                    <Rectangle x:Name="edgePad_BottomLeft" Fill="Red" Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="left" MouseDown="edge_BottomLeft_MouseDown" ></Rectangle>
+                </Border>
+                <Border x:Name="edge_BottomRight" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0,0,5,5" BorderBrush="Black" Opacity="0.5" MouseDown="edge_BottomRight_MouseDown">
+                    <Rectangle x:Name="edgePad_BottomRight" Fill="Red" Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseDown="edge_BottomRight_MouseDown" ></Rectangle>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window> 
