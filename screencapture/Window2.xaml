@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:screencapture"
         mc:Ignorable="d"
-        Title="Window2" Height="300" Width="300" WindowStyle="None" Opacity="0.75" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="NoResize" WindowState="Maximized" Cursor="Cross" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="transWindow_MouseLeftButtonDown" MouseMove="transWindow_MouseMove" MouseUp="transWindow_MouseUp">
+        Title="Window2" Height="300" Width="300" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        ResizeMode="NoResize" Cursor="Cross" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="transWindow_MouseLeftButtonDown" 
+        MouseMove="transWindow_MouseMove" MouseUp="transWindow_MouseUp" 
+        Background="White" Foreground="Transparent" BorderThickness="1" BorderBrush="Yellow" IsTabStop="False" WindowStyle="None" AllowsTransparency="True" Opacity="0.05" WindowState="Maximized">
     <Grid>
-        
+        <Canvas x:Name="can1" Background="Transparent" Cursor="Pen" IsHitTestVisible="False" MouseLeftButtonDown="can1_MouseLeftButtonDown" MouseMove="can1_MouseMove" MouseLeftButtonUp="can1_MouseLeftButtonUp"/>
+
     </Grid>
 </Window>

@@ -11,7 +11,7 @@
             <RowDefinition Height="43*"/>
             <RowDefinition Height="526*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="imagePreview" Margin="0,10,382,0" Grid.Row="1" VerticalAlignment="Top" Height="300" HorizontalAlignment="Right" Width="400" Stretch="UniformToFill" IsEnabled="False"/>
+        <Image x:Name="imagePreview" Margin="10,10,0,10" Grid.Row="1" HorizontalAlignment="Left" Width="772" Stretch="Fill" IsEnabled="False" SourceUpdated="imagePreview_SourceUpdated"/>
         <ToolBar x:Name="toolBar">
             <Button x:Name="buttonAll" Content="Pantalla" Click="Button_Click"/>
             <Button x:Name="buttonRect" Content="Rectangulo" Click="buttonRect_Click"/>

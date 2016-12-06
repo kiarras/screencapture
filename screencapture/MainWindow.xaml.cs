@@ -26,7 +26,7 @@ namespace screencapture
         #region CONSTANTES Y VARIABLES
         Rect rectCapture;
         rectWindow rW;
-        Window2 tW;
+        Window2 tW; 
         #endregion
 
         #region Imports DLL
@@ -62,25 +62,8 @@ namespace screencapture
         {
             try
             {
-                //ocultamos la ventana de la aplicación para que 
-                //no aparezca en la captura de pantalla
-                Hide();
+                captureALL();
 
-                //esperamos unos milisegundos para asegurarnos que 
-                //se ha ocultado la ventana
-                System.Threading.Thread.Sleep(250);
-
-                //obtenemos la resolución de la campura
-                rectCapture.Location = new Point(0, 0);
-                rectCapture.Width = SystemParameters.FullPrimaryScreenWidth;
-                rectCapture.Height = SystemParameters.FullPrimaryScreenHeight;
-
-                
-
-                //creamos un Bitmap del tamaño de nuestra pantalla
-                
-
-                imagePreview.Source = CaptureRegion((int)rectCapture.Width,(int)rectCapture.Height);
             }
             catch (Exception objError)
             {
@@ -90,6 +73,29 @@ namespace screencapture
             {
                 Show();
             }
+        }
+
+        private void captureALL()
+        {
+            //ocultamos la ventana de la aplicación para que 
+            //no aparezca en la captura de pantalla
+            Hide();
+
+            //esperamos unos milisegundos para asegurarnos que 
+            //se ha ocultado la ventana
+            System.Threading.Thread.Sleep(250);
+
+            //obtenemos la resolución de la campura
+            rectCapture.Location = new Point(0, 0);
+            rectCapture.Width = SystemParameters.FullPrimaryScreenWidth;
+            rectCapture.Height = SystemParameters.FullPrimaryScreenHeight;
+
+
+
+            //creamos un Bitmap del tamaño de nuestra pantalla
+
+
+            imagePreview.Source = CaptureRegion((int)rectCapture.Width, (int)rectCapture.Height);
         }
 
 
@@ -211,18 +217,13 @@ namespace screencapture
         {
             try
             {
+                //captureALL();
                 //ocultamos la ventana de la aplicación para que 
                 //no aparezca en la captura de pantalla
                 Hide();
 
-                //esperamos unos milisegundos para asegurarnos que 
-                //se ha ocultado la ventana
-                System.Threading.Thread.Sleep(250);
-
-                
                 tW = new Window2(imagePreview);
-                tW.Show();
-
+                tW.ShowDialog();
                 
             }
             catch (Exception objError)
@@ -231,9 +232,19 @@ namespace screencapture
             }
             finally
             {
+                //while(tW.IsActive)
+                //{
+                //    Hide();
+                //}
+                Show();
+                
                 
             }
         }
-        
+
+        private void imagePreview_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            Show();
+        }
     }
 }
