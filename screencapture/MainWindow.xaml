@@ -11,11 +11,13 @@
             <RowDefinition Height="43*"/>
             <RowDefinition Height="526*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="imagePreview" Margin="10,10,0,10" Grid.Row="1" HorizontalAlignment="Left" Width="772" Stretch="Fill" IsEnabled="False" SourceUpdated="imagePreview_SourceUpdated"/>
+        <Image x:Name="imagePreview" Margin="10,10,0,10" Grid.Row="1" HorizontalAlignment="Left" Width="772" Stretch="None" IsEnabled="False"/>
         <ToolBar x:Name="toolBar">
             <Button x:Name="buttonAll" Content="Pantalla" Click="Button_Click"/>
             <Button x:Name="buttonRect" Content="Rectangulo" Click="buttonRect_Click"/>
             <Button x:Name="rectboton" Content="Rectangulo 2" Height="38" VerticalAlignment="Top" Width="75" Click="rectboton_Click"/>
+            <Button x:Name="button_copy" Content="Portapapeles" Height="38" VerticalAlignment="Top" Width="75" Click="button_copy_Click"/>
+            <Button x:Name="button_save" Content="Guardar" Height="38" VerticalAlignment="Top" Width="75" Click="button_save_Click"/>
         </ToolBar>
 
     </Grid>

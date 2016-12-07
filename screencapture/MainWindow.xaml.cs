@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using System.Drawing;
 using System.Windows.Interop; //transparent Child-Window
 using System.Runtime.InteropServices; //Import User32 DLL
+using Microsoft.Win32;
+using System.IO;
+
 
 namespace screencapture
 {
@@ -23,11 +26,6 @@ namespace screencapture
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region CONSTANTES Y VARIABLES
-        Rect rectCapture;
-        rectWindow rW;
-        Window2 tW; 
-        #endregion
 
         #region Imports DLL
         [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
@@ -51,13 +49,17 @@ namespace screencapture
         static extern bool DeleteObject(IntPtr hObject); 
         #endregion
 
-
+        #region CONSTANTES Y VARIABLES
+        public static Rect rectCapture;
+        rectWindow rW;
+        Window2 tW; 
+        #endregion
 
         public MainWindow()
         {
             InitializeComponent();
         }
-
+        //capturar toda la pantalla
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -85,16 +87,12 @@ namespace screencapture
             //se ha ocultado la ventana
             System.Threading.Thread.Sleep(250);
 
-            //obtenemos la resolución de la campura
+            //obtenemos la resolución de la captura
             rectCapture.Location = new Point(0, 0);
             rectCapture.Width = SystemParameters.FullPrimaryScreenWidth;
             rectCapture.Height = SystemParameters.FullPrimaryScreenHeight;
 
-
-
             //creamos un Bitmap del tamaño de nuestra pantalla
-
-
             imagePreview.Source = CaptureRegion((int)rectCapture.Width, (int)rectCapture.Height);
         }
 
@@ -222,8 +220,9 @@ namespace screencapture
                 //no aparezca en la captura de pantalla
                 Hide();
 
-                tW = new Window2(imagePreview);
+                tW = new Window2(imagePreview, rectCapture);
                 tW.ShowDialog();
+                
                 
             }
             catch (Exception objError)
@@ -242,9 +241,62 @@ namespace screencapture
             }
         }
 
-        private void imagePreview_SourceUpdated(object sender, DataTransferEventArgs e)
+        private void button_copy_Click(object sender, RoutedEventArgs e)
         {
-            Show();
+            //-------------< BtnToClipboard_Click() >------------- 
+            //*speichert das Image (Bitmap,BitmapSource, ImageSource) in die Clipboard 
+            //namespace System.Windows.Clipboard 
+
+            //< BitmapSource aus Control erstellen > 
+            BitmapSource bmpSource = (BitmapSource)imagePreview.Source;
+            //</ BitmapSource aus Control erstellen > 
+
+            //< in Clipboard speichern > 
+            Clipboard.SetImage(bmpSource);
+            //</ in Clipboard speichern > 
+            //-------------</ BtnToClipboard_Click() >-------------
+        }
+
+        private void button_save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Title = "Guardar imagen como...";
+            dlg.DefaultExt = "jpg";
+            dlg.Filter = "Images jpg|*.jpg| tif|*.tif| png|*.png| bmp|*.bmp";
+            dlg.AddExtension = true;
+            dlg.FilterIndex = 1;
+
+            if (dlg.ShowDialog() == true)
+            {
+
+                string ext = System.IO.Path.GetExtension(dlg.FileName);
+                FileStream stream = new FileStream(dlg.FileName, FileMode.Create);
+                BitmapSource bmpSource = (BitmapSource)imagePreview.Source;
+                switch (ext)
+                {
+                    case ".jpg":
+                        JpegBitmapEncoder encoderJpeg = new JpegBitmapEncoder();
+                        encoderJpeg.Frames.Add(BitmapFrame.Create(bmpSource));
+                        encoderJpeg.Save(stream);
+                        break;
+                    case ".tif":
+                        TiffBitmapEncoder encoderTiff = new TiffBitmapEncoder();
+                        encoderTiff.Frames.Add(BitmapFrame.Create(bmpSource));
+                        encoderTiff.Save(stream);
+                        break;
+                    case ".png":
+                        PngBitmapEncoder encoderPng = new PngBitmapEncoder();
+                        encoderPng.Frames.Add(BitmapFrame.Create(bmpSource));
+                        encoderPng.Save(stream);
+                        break;
+                    case ".bmp":
+                        BmpBitmapEncoder encoderBmp = new BmpBitmapEncoder();
+                        encoderBmp.Frames.Add(BitmapFrame.Create(bmpSource));
+                        encoderBmp.Save(stream);
+                        break;
+                }
+                        
+            }
         }
     }
 }

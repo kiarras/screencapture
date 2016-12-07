@@ -8,9 +8,9 @@
         Title="Window2" Height="300" Width="300" ScrollViewer.VerticalScrollBarVisibility="Disabled"
         ResizeMode="NoResize" Cursor="Cross" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="transWindow_MouseLeftButtonDown" 
         MouseMove="transWindow_MouseMove" MouseUp="transWindow_MouseUp" 
-        Background="White" Foreground="Transparent" BorderThickness="1" BorderBrush="Yellow" IsTabStop="False" WindowStyle="None" AllowsTransparency="True" Opacity="0.05" WindowState="Maximized">
+        Background="White" Foreground="Transparent" BorderThickness="1" BorderBrush="Yellow" IsTabStop="False" WindowStyle="None" AllowsTransparency="True" Opacity="0.05" WindowState="Maximized" PreviewKeyDown="transWindow_PreviewKeyDown" Loaded="transWindow_Loaded">
     <Grid>
-        <Canvas x:Name="can1" Background="Transparent" Cursor="Pen" IsHitTestVisible="False" MouseLeftButtonDown="can1_MouseLeftButtonDown" MouseMove="can1_MouseMove" MouseLeftButtonUp="can1_MouseLeftButtonUp"/>
+        <Canvas x:Name="can1" Background="Transparent" Cursor="Pen" IsEnabled="False"/>
 
     </Grid>
 </Window>

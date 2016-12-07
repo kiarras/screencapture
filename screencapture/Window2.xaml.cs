@@ -20,8 +20,6 @@ namespace screencapture
     /// </summary>
     public partial class Window2 : Window
     {
-
-
         #region Imports DLL
         [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
         static extern IntPtr GetDesktopWindow();
@@ -83,89 +81,130 @@ namespace screencapture
             CAPTUREBLT = 0x40000000
         }
 
-
-        private Rect r;
-        private bool capture;
+        internal Rect captura;
+        private bool iScaptured;
         private Image imagePreview;
-        Rectangle rect;
+        private Rectangle rect;
+        private bool repeat;
+
         public Window2()
         {
             InitializeComponent();
         }
-        public Window2(Image cuadrado)
+        public Window2(Image cuadro, Rect r)
         {
-            imagePreview = cuadrado;
+            imagePreview = cuadro;
+            captura = r;
             InitializeComponent();
-            //Top = 1;
-            //Left = 1;
-            //Width = SystemParameters.FullPrimaryScreenWidth-1;
-            //Height = SystemParameters.FullPrimaryScreenHeight-1;
+
+        }
+
+        private void transWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(captura.Width != 0 || captura.Height != 0)
+            {
+                setRectangule();
+                repeat = true;
+            }
+        }
+
+        private void setRectangule()
+        {
+            rect = new Rectangle();
+            rect.Stroke = Brushes.Red;
+            rect.StrokeThickness = 2;
+            rect.Width = captura.Width;
+            rect.Height = captura.Height; ;
+            rect.Fill = Brushes.Red;
+            rect.Uid = "rect";
+            Canvas.SetLeft(rect, captura.Left);
+            Canvas.SetTop(rect, captura.Top);
+            can1.Children.Add(rect);
         }
 
         private void transWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!capture)
+            if (repeat)
             {
-                r.Location = e.GetPosition(this);
-                rect = new Rectangle();
-                rect.Stroke = Brushes.Red;
-                rect.StrokeThickness = 2;
-                rect.Width = 0;
-                rect.Height = 0;
-                rect.Fill = Brushes.Red;
-                Canvas.SetLeft(rect, r.Left);
-                Canvas.SetTop(rect, r.Top);
-                can1.Children.Add(rect);
+                if(e.GetPosition(this).X > captura.Location.X && e.GetPosition(this).X < (captura.Location.X + captura.Width)
+                    && e.GetPosition(this).Y > captura.Location.Y && e.GetPosition(this).Y < (captura.Location.Y + captura.Height))
+                {
+                    capturar();
+                }
+                else
+                {
+                    clearRepeat();
+                }
+            }
+            if (!iScaptured)
+            {
+                captura.Location = e.GetPosition(this);
+                setRectangule();
             }
             else
             {
-                //ocultamos la ventana de la aplicación para que 
-                //no aparezca en la captura de pantalla
-                Hide();
-
-                //esperamos unos milisegundos para asegurarnos que 
-                //se ha ocultado la ventana
-                System.Threading.Thread.Sleep(250);
-                imagePreview.Source = CaptureRegion(r.Location,(int)r.Width, (int)r.Height);
-                Close();
-                
+                if (e.GetPosition(this).X > captura.Location.X && e.GetPosition(this).X < (captura.Location.X + captura.Width)
+                    && e.GetPosition(this).Y > captura.Location.Y && e.GetPosition(this).Y < (captura.Location.Y + captura.Height))
+                {
+                    capturar();
+                }
+                else
+                {
+                    clearRepeat();
+                    iScaptured = false;
+                    captura.Location = e.GetPosition(this);
+                    captura.Width = 0;
+                    captura.Height = 0;
+                    setRectangule();
+                }                
             }
 
         }
 
         private void transWindow_MouseMove(object sender, MouseEventArgs e)
         {
-            if (rect != null && !capture)
+            if (rect != null && !iScaptured && !repeat)
             {
-                r.Width = Math.Abs(r.Location.X - e.GetPosition(this).X);
-                r.Height = Math.Abs(r.Location.Y - e.GetPosition(this).Y);
+                captura.Width = Math.Abs(captura.Location.X - e.GetPosition(this).X);
+                captura.Height = Math.Abs(captura.Location.Y - e.GetPosition(this).Y);
 
-                rect.Width = r.Width;
-                rect.Height = r.Height;
+                rect.Width = captura.Width;
+                rect.Height = captura.Height;
+            }
+            else if (iScaptured || repeat)
+            {
+                if (e.GetPosition(this).X > captura.Location.X && e.GetPosition(this).X < (captura.Location.X + captura.Width)
+    && e.GetPosition(this).Y > captura.Location.Y && e.GetPosition(this).Y < (captura.Location.Y + captura.Height))
+                {
+                    Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    Cursor = Cursors.Cross;
+                }
             }
         }
 
         private void transWindow_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            capture = true;
+            iScaptured = true;
             Cursor = Cursors.Hand;
         }
+
         public static BitmapSource CaptureRegion(Point p, int width, int height)
         {
             IntPtr sourceDC = IntPtr.Zero;
             IntPtr targetDC = IntPtr.Zero;
             IntPtr compatibleBitmapHandle = IntPtr.Zero;
 
-            //int width = PrimaryScreen.Bounds.Width;
-            //int height = Screen.PrimaryScreen.Bounds.Height;
-
-            //const int y = 100;
-            //const int x = 100;
             int y = 100;
             int x = 100;
             BitmapSource bitmapSource = null;
             try
             {
+                x = (int)p.X;
+                y = (int)p.Y;
+
                 // gets the main desktop and all open windows
                 sourceDC = GetDC(GetDesktopWindow());
 
@@ -176,10 +215,8 @@ namespace screencapture
 
                 // gets the bitmap into the target device context
                 SelectObject(targetDC, compatibleBitmapHandle);
-                x = (int)p.X;
-                y = (int)p.Y;
                 // copy from source to destination
-                BitBlt(targetDC, 0,0, width, height, sourceDC, x, y, TernaryRasterOperations.SRCCOPY);
+                BitBlt(targetDC, 0, 0, width, height, sourceDC, x, y, TernaryRasterOperations.SRCCOPY);
 
                 // Here's the WPF glue to make it all work. It converts from an
                 // hBitmap to a BitmapSource. Love the WPF interop functions
@@ -201,44 +238,47 @@ namespace screencapture
             return bitmapSource;
         }
 
-        private void can1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void transWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            //if (!capture)
-            //{
-            //    r.Location = e.GetPosition(this);
-            //    rect = new Rectangle();
-            //    rect.Stroke = Brushes.Red;
-            //    rect.StrokeThickness = 2;
-            //    rect.Width = 0;
-            //    rect.Height = 0;
-            //    Canvas.SetLeft(rect, r.Left);
-            //    Canvas.SetTop(rect, r.Top);
-            //    can1.Children.Add(rect);
-            //}
-            //else
-            //{
-            //    imagePreview.Source = CaptureRegion(r.Location,(int)r.Width, (int)r.Height);
-            //    Close();
-
-            //}
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    if (repeat)
+                    {
+                        capturar();
+                    }
+                    break;
+                case Key.Escape:
+                    if (repeat)
+                    {
+                        clearRepeat(); 
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
-        private void can1_MouseMove(object sender, MouseEventArgs e)
+        private void clearRepeat()
         {
-            //if (rect != null && !capture)
-            //{
-            //    r.Width = Math.Abs(r.Location.X - e.GetPosition(this).X);
-            //    r.Height = Math.Abs(r.Location.Y - e.GetPosition(this).Y);
-
-            //    rect.Width = r.Width;
-            //    rect.Height = r.Height;
-            //}
+            can1.Children.Remove(rect);
+            rect = null;
+            repeat = false;
         }
 
-        private void can1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void capturar()
         {
-            //capture = true;
-            //Cursor = Cursors.Hand;
+            //ocultamos la ventana de la aplicación para que 
+            //no aparezca en la captura de pantalla
+            Hide();
+
+            //esperamos unos milisegundos para asegurarnos que 
+            //se ha ocultado la ventana
+            System.Threading.Thread.Sleep(250);
+
+            imagePreview.Source = CaptureRegion(captura.Location, (int)captura.Width, (int)captura.Height);
+            MainWindow.rectCapture = captura;
+            Close();
         }
     }
 }
