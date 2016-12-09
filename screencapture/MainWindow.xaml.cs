@@ -27,7 +27,7 @@ namespace screencapture
     public partial class MainWindow : Window
     {
 
-        #region Imports DLL
+        #region Importacion DLL 
         [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
         static extern IntPtr GetDesktopWindow();
 
@@ -50,8 +50,45 @@ namespace screencapture
         #endregion
 
         #region CONSTANTES Y VARIABLES
+        enum TernaryRasterOperations : uint
+        {
+            /// <summary>dest = source</summary>
+            SRCCOPY = 0x00CC0020,
+            /// <summary>dest = source OR dest</summary>
+            SRCPAINT = 0x00EE0086,
+            /// <summary>dest = source AND dest</summary>
+            SRCAND = 0x008800C6,
+            /// <summary>dest = source XOR dest</summary>
+            SRCINVERT = 0x00660046,
+            /// <summary>dest = source AND (NOT dest)</summary>
+            SRCERASE = 0x00440328,
+            /// <summary>dest = (NOT source)</summary>
+            NOTSRCCOPY = 0x00330008,
+            /// <summary>dest = (NOT src) AND (NOT dest)</summary>
+            NOTSRCERASE = 0x001100A6,
+            /// <summary>dest = (source AND pattern)</summary>
+            MERGECOPY = 0x00C000CA,
+            /// <summary>dest = (NOT source) OR dest</summary>
+            MERGEPAINT = 0x00BB0226,
+            /// <summary>dest = pattern</summary>
+            PATCOPY = 0x00F00021,
+            /// <summary>dest = DPSnoo</summary>
+            PATPAINT = 0x00FB0A09,
+            /// <summary>dest = pattern XOR dest</summary>
+            PATINVERT = 0x005A0049,
+            /// <summary>dest = (NOT dest)</summary>
+            DSTINVERT = 0x00550009,
+            /// <summary>dest = BLACK</summary>
+            BLACKNESS = 0x00000042,
+            /// <summary>dest = WHITE</summary>
+            WHITENESS = 0x00FF0062,
+            /// <summary>
+            /// Capture window as seen on screen.  This includes layered windows 
+            /// such as WPF windows with AllowsTransparency="true"
+            /// </summary>
+            CAPTUREBLT = 0x40000000
+        }
         public static Rect rectCapture;
-        rectWindow rW;
         Window2 tW; 
         #endregion
 
@@ -59,7 +96,7 @@ namespace screencapture
         {
             InitializeComponent();
         }
-        //capturar toda la pantalla
+        // Boton de captura de toda la pantalla
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -77,17 +114,16 @@ namespace screencapture
             }
         }
 
+        //Captura de toda la pantalla
         private void captureALL()
         {
-            //ocultamos la ventana de la aplicación para que 
-            //no aparezca en la captura de pantalla
+            // Se oculta la ventana de la aplicación para que no aparezca en la captura de pantalla
             Hide();
 
-            //esperamos unos milisegundos para asegurarnos que 
-            //se ha ocultado la ventana
+            //esperamos unos milisegundos para asegurarnos que se ha ocultado la ventana
             System.Threading.Thread.Sleep(250);
 
-            //obtenemos la resolución de la captura
+            //Resolución de la captura
             rectCapture.Location = new Point(0, 0);
             rectCapture.Width = SystemParameters.FullPrimaryScreenWidth;
             rectCapture.Height = SystemParameters.FullPrimaryScreenHeight;
@@ -96,8 +132,7 @@ namespace screencapture
             imagePreview.Source = CaptureRegion((int)rectCapture.Width, (int)rectCapture.Height);
         }
 
-
-        // capture a region of a the screen, defined by the hWnd
+        //Capturar una region de la pantalla
         public static BitmapSource CaptureRegion(int width, int height)
         {
             IntPtr sourceDC = IntPtr.Zero;
@@ -146,84 +181,17 @@ namespace screencapture
             return bitmapSource;
         }
 
-        enum TernaryRasterOperations : uint
-        {
-            /// <summary>dest = source</summary>
-            SRCCOPY = 0x00CC0020,
-            /// <summary>dest = source OR dest</summary>
-            SRCPAINT = 0x00EE0086,
-            /// <summary>dest = source AND dest</summary>
-            SRCAND = 0x008800C6,
-            /// <summary>dest = source XOR dest</summary>
-            SRCINVERT = 0x00660046,
-            /// <summary>dest = source AND (NOT dest)</summary>
-            SRCERASE = 0x00440328,
-            /// <summary>dest = (NOT source)</summary>
-            NOTSRCCOPY = 0x00330008,
-            /// <summary>dest = (NOT src) AND (NOT dest)</summary>
-            NOTSRCERASE = 0x001100A6,
-            /// <summary>dest = (source AND pattern)</summary>
-            MERGECOPY = 0x00C000CA,
-            /// <summary>dest = (NOT source) OR dest</summary>
-            MERGEPAINT = 0x00BB0226,
-            /// <summary>dest = pattern</summary>
-            PATCOPY = 0x00F00021,
-            /// <summary>dest = DPSnoo</summary>
-            PATPAINT = 0x00FB0A09,
-            /// <summary>dest = pattern XOR dest</summary>
-            PATINVERT = 0x005A0049,
-            /// <summary>dest = (NOT dest)</summary>
-            DSTINVERT = 0x00550009,
-            /// <summary>dest = BLACK</summary>
-            BLACKNESS = 0x00000042,
-            /// <summary>dest = WHITE</summary>
-            WHITENESS = 0x00FF0062,
-            /// <summary>
-            /// Capture window as seen on screen.  This includes layered windows 
-            /// such as WPF windows with AllowsTransparency="true"
-            /// </summary>
-            CAPTUREBLT = 0x40000000
-        }
-
-        private void buttonRect_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //ocultamos la ventana de la aplicación para que 
-                //no aparezca en la captura de pantalla
-                Hide();
-
-                //esperamos unos milisegundos para asegurarnos que 
-                //se ha ocultado la ventana
-                System.Threading.Thread.Sleep(250);
-
-                rW = new rectWindow();
-                rW.Show();
-            }
-            catch (Exception objError)
-            {
-                MessageBox.Show(objError.ToString(), "Error");
-            }
-            finally
-            {
-                //if(!rW.IsActive)
-                //Show();
-            }
-        }
-
+        //Capturar recuadro de pantalla
         private void rectboton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                //captureALL();
-                //ocultamos la ventana de la aplicación para que 
-                //no aparezca en la captura de pantalla
+                // Ocultar la ventana de la aplicación para que no aparezca en la captura de pantalla
                 Hide();
 
+                //Crear y abrir ventana de seleccion de recuadro
                 tW = new Window2(imagePreview, rectCapture);
                 tW.ShowDialog();
-                
-                
             }
             catch (Exception objError)
             {
@@ -231,34 +199,24 @@ namespace screencapture
             }
             finally
             {
-                //while(tW.IsActive)
-                //{
-                //    Hide();
-                //}
                 Show();
-                
-                
             }
         }
 
+        //Copiar imagen al portapapeles
         private void button_copy_Click(object sender, RoutedEventArgs e)
         {
-            //-------------< BtnToClipboard_Click() >------------- 
-            //*speichert das Image (Bitmap,BitmapSource, ImageSource) in die Clipboard 
-            //namespace System.Windows.Clipboard 
+            //Crear bitmap para el portapapeles
+            BitmapSource bmpSource = (BitmapSource)imagePreview.Source; 
 
-            //< BitmapSource aus Control erstellen > 
-            BitmapSource bmpSource = (BitmapSource)imagePreview.Source;
-            //</ BitmapSource aus Control erstellen > 
-
-            //< in Clipboard speichern > 
+            //Copiar imagen en el portapapeles 
             Clipboard.SetImage(bmpSource);
-            //</ in Clipboard speichern > 
-            //-------------</ BtnToClipboard_Click() >-------------
         }
 
+        //Guardar imagen en disco
         private void button_save_Click(object sender, RoutedEventArgs e)
         {
+            // Abrir cuadro de dialogo para saval imagen
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Title = "Guardar imagen como...";
             dlg.DefaultExt = "jpg";
@@ -268,10 +226,14 @@ namespace screencapture
 
             if (dlg.ShowDialog() == true)
             {
-
+                //Extraer extensión del archivo a guardar
                 string ext = System.IO.Path.GetExtension(dlg.FileName);
+                //Crear archivo stream para guardar
                 FileStream stream = new FileStream(dlg.FileName, FileMode.Create);
+                //Crear bitmap para el stream
                 BitmapSource bmpSource = (BitmapSource)imagePreview.Source;
+
+                //Segun la extensión codificar el bitmap y guardar
                 switch (ext)
                 {
                     case ".jpg":

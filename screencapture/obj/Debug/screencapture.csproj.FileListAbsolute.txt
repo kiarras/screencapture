@@ -21,15 +21,12 @@ C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screenca
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.pdb
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\bin\Debug\screencapture.exe
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\bin\Debug\screencapture.pdb
-C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.csprojResolveAssemblyReference.cache
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\MainWindow.g.cs
-C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\Window1.g.cs
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\Window2.g.cs
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\App.g.cs
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture_MarkupCompile.cache
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture_MarkupCompile.lref
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\MainWindow.baml
-C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\Window1.baml
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\Window2.baml
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.g.resources
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.Properties.Resources.resources

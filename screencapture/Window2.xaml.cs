@@ -42,6 +42,7 @@ namespace screencapture
         static extern bool DeleteObject(IntPtr hObject);
         #endregion
 
+        #region CONSTANTES Y VARIABLES
         enum TernaryRasterOperations : uint
         {
             /// <summary>dest = source</summary>
@@ -85,7 +86,8 @@ namespace screencapture
         private bool iScaptured;
         private Image imagePreview;
         private Rectangle rect;
-        private bool repeat;
+        private bool repeat; 
+        #endregion
 
         public Window2()
         {
@@ -108,6 +110,7 @@ namespace screencapture
             }
         }
 
+        //Crear rectangulo de seleccion 
         private void setRectangule()
         {
             rect = new Rectangle();
@@ -251,7 +254,12 @@ namespace screencapture
                 case Key.Escape:
                     if (repeat)
                     {
-                        clearRepeat(); 
+                        clearRepeat();
+                        iScaptured = false;
+                        captura.Location = Mouse.GetPosition(this);
+                        captura.Width = 0;
+                        captura.Height = 0;
+                        setRectangule();
                     }
                     break;
                 default:
@@ -259,21 +267,20 @@ namespace screencapture
             }
         }
 
+        //Limpiar captura anterior
         private void clearRepeat()
         {
             can1.Children.Remove(rect);
             rect = null;
             repeat = false;
+            Cursor = Cursors.Cross;
         }
 
+        //Realizar captura de recuadro
         private void capturar()
         {
-            //ocultamos la ventana de la aplicación para que 
-            //no aparezca en la captura de pantalla
             Hide();
-
-            //esperamos unos milisegundos para asegurarnos que 
-            //se ha ocultado la ventana
+            
             System.Threading.Thread.Sleep(250);
 
             imagePreview.Source = CaptureRegion(captura.Location, (int)captura.Width, (int)captura.Height);
