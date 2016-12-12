@@ -117,8 +117,7 @@ namespace screencapture
             rect.Stroke = Brushes.Red;
             rect.StrokeThickness = 2;
             rect.Width = captura.Width;
-            rect.Height = captura.Height; ;
-            rect.Fill = Brushes.Red;
+            rect.Height = captura.Height;
             rect.Uid = "rect";
             Canvas.SetLeft(rect, captura.Left);
             Canvas.SetTop(rect, captura.Top);

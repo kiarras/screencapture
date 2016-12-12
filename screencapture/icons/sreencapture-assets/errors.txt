@@ -1,0 +1,1 @@
+[Sun Dec 11 2016 12:58:37 GMT+0100 (Hora estándar romance)] Layer "Capa 1 copia.png copia": Expected end of input but "c" found.

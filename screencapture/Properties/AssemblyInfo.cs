@@ -8,9 +8,9 @@ using System.Windows;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("screencapture")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Aplicacion para capturar imgenes de la pantalla")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ktech")]
 [assembly: AssemblyProduct("screencapture")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
