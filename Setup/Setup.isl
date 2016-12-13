@@ -3844,7 +3844,7 @@
 		<col def="V0">Data</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
-		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
+		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\iconSc.ico</td><td>0</td></row>
 		<row><td>UNINST_Uninstall_S_464B52429E084759AE5B867493D9B664.exe</td><td/><td>C:\Program Files (x86)\InstallShield\2015LE\Redist\Language Independent\OS Independent\uninstall.ico</td><td>0</td></row>
 		<row><td>_Built1_8B8A0C73DDE840E8A26F21BC716A8DAF.exe</td><td/><td>&lt;VSSolutionFolder&gt;\icons\iconSc.ico</td><td>0</td></row>
 		<row><td>_Built_331CBED2C28248279C26056078B12E8A.exe</td><td/><td>&lt;VSSolutionFolder&gt;\icons\iconSc.ico</td><td>0</td></row>
@@ -4353,7 +4353,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>ProductCode</td><td>{1439414C-9BFC-4D2A-9A94-6E27571EC9D7}</td><td/></row>
-		<row><td>ProductName</td><td>Setup</td><td/></row>
+		<row><td>ProductName</td><td>ScreenCapture</td><td/></row>
 		<row><td>ProductVersion</td><td>1.00.0000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>

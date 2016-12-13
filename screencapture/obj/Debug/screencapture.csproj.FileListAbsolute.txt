@@ -12,8 +12,6 @@ C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\screencap
 C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.csproj.GenerateResource.Cache
 C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.exe
 C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\screencapture.pdb
-C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\Window1.g.cs
-C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\Window1.baml
 C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\Window2.g.cs
 C:\Users\daniel\Documents\GitHub\screencapture\screencapture\obj\Debug\Window2.baml
 C:\Users\kiarras\Documents\GitHub\screencapture\screencapture\bin\Debug\screencapture.exe.config
